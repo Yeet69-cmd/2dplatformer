@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Heal
+  - Coin
+  - Star
+  - PowerUp
   layers:
   - Default
   - TransparentFX

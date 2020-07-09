@@ -30,6 +30,10 @@ public class HealthManager : MonoBehaviour
         }
         // UPDATE THE SLIDER
         healthSlider.value = health / MAXHEALTH;
+
+        // Other code
+
+        GetComponent<AudioSource>().Play();
     }
 
 
@@ -48,6 +52,7 @@ public class HealthManager : MonoBehaviour
         }
     }
 
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Heal"))
@@ -57,6 +62,8 @@ public class HealthManager : MonoBehaviour
         }
         // UPDATE THE SLIDER
         healthSlider.value = health / MAXHEALTH;
+
+
     }
 
 }

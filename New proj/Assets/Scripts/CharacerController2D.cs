@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
 
 public class CharacerController2D : MonoBehaviour
 {
@@ -14,7 +16,9 @@ public class CharacerController2D : MonoBehaviour
     public LayerMask whatisGround;
     public float checkRadius;
     private float x;
-
+    public float maxspeed;
+    public float normalspeed;
+   
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +27,14 @@ public class CharacerController2D : MonoBehaviour
         animator = GetComponent<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
 
+        maxspeed = speed * 2;
+        normalspeed = speed;
+
+
     }
+
+    
+    
 
 
 
@@ -62,9 +73,21 @@ public class CharacerController2D : MonoBehaviour
             // ... flip the player.
             Flip();
         }
+       
+        if (Input.GetKeyDown("s"))
+        {
+            StartCoroutine(GoFaster());
+        }
 
     }
 
+
+    IEnumerator GoFaster()
+    {
+        speed = maxspeed;
+        yield return new WaitForSeconds(5f);
+        speed = normalspeed;
+    }
 
 
     // Update is called once per frame
@@ -100,4 +123,33 @@ public class CharacerController2D : MonoBehaviour
 
         transform.localScale = scale;
     }
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Star")
+        {   
+            //Destroy the star
+            Destroy(collision.gameObject);
+            //Change the player's tag
+            gameObject.tag = "PowerUp";
+            //Change the player's color
+            gameObject.GetComponent<Renderer>().material.color = Color.green;
+            //Star the corountine
+            StartCoroutine(Reset());
+        }
+
+        
+    }
+    IEnumerator Reset()
+    {
+        //Declare the waiting time
+        yield return new WaitForSeconds(5F);
+        //Change the player's tag back
+        gameObject.tag = "Player";
+        //Change the player's color back
+        gameObject.GetComponent<Renderer>().material.color = Color.white;
+
+
+    }
+
+
 }
